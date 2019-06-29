@@ -1,0 +1,39 @@
+﻿@page "/items/{Id:guid}"
+@inject IUriHelper UrlHelper
+@inject ApplicationState AppState
+
+<style>
+    a {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+        a.no-decoration {
+            text-decoration: none;
+        }
+</style>
+
+<h2>
+    <a href="/" class="no-decoration">&lt;</a>
+    Item
+</h2>
+
+<p>
+    Id is: @Id
+</p>
+
+<p>
+    <a @onclick="@OnClickGotoItemList">Go to Item List</a>
+</p>
+
+@code {
+    [Parameter]
+    private Guid Id { get; set; }
+
+    private void OnClickGotoItemList()
+    {
+        AppState.ScrollPos = null;
+        UrlHelper.NavigateTo("/");
+    }
+}

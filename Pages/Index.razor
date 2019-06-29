@@ -1,0 +1,42 @@
+﻿@page "/"
+@inject Item[] Items
+@inject IJSRuntime JS
+@inject IUriHelper UrlHelper
+@inject ApplicationState AppState
+
+<style>
+    a {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+
+<h2>Item List</h2>
+
+<ul>
+    @foreach (var item in Items)
+    {
+        <li>
+            <a @onclick="@(() => OnClickItem(item))">@item.Id</a>
+        </li>
+    }
+</ul>
+
+@code {
+
+    protected override async Task OnAfterRenderAsync()
+    {
+        if (AppState.ScrollPos.HasValue)
+        {
+            await JS.InvokeAsync<object>("eval", $"setTimeout(() => document.scrollingElement.scrollTop = {AppState.ScrollPos.Value},0)");
+        }
+    }
+
+    public async Task OnClickItem(Item item)
+    {
+        var scrollPos = await JS.InvokeAsync<int>("eval", "document.scrollingElement.scrollTop");
+        AppState.ScrollPos = scrollPos;
+        UrlHelper.NavigateTo($"items/{item.Id}");
+    }
+}
