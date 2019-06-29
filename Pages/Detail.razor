@@ -15,7 +15,7 @@
 </style>
 
 <h2>
-    <a href="/" class="no-decoration">&lt;</a>
+    <a href="@UrlHelper.GetBaseUri()" class="no-decoration">&lt;</a>
     Item
 </h2>
 
@@ -34,6 +34,6 @@
     private void OnClickGotoItemList()
     {
         AppState.ScrollPos = null;
-        UrlHelper.NavigateTo("/");
+        UrlHelper.NavigateTo(UrlHelper.GetBaseUri());
     }
 }
